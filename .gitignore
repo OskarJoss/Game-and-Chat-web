@@ -9,10 +9,8 @@
 /coverage
 
 # production
-.*
-!/.gitignore
-!/.env.example
-/dist
+dist/
+.cache/
 
 # misc
 .DS_Store
