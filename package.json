@@ -1,0 +1,29 @@
+{
+  "name": "Game-and-Chat-web",
+  "version": "1.0.0",
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=development parcel index.html",
+    "start": "NODE_ENV=production parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OskarJoss/Game-and-Chat-web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OskarJoss/Game-and-Chat-web/issues"
+  },
+  "homepage": "https://github.com/OskarJoss/Game-and-Chat-web#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "socket.io-client": "^2.3.1"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
+}
