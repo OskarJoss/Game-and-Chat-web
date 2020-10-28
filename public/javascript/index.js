@@ -1,13 +1,31 @@
 import { socket } from "./socket.js";
+import startTicTacToeGame from "./ticTacToe";
 
-socket.on("test", (data) => {
-  console.log(data.message);
+socket.on("room", (data) => {
+  if (data.action === "joined room") {
+    if (data.pickedGame === "tic-tac-toe") {
+      startTicTacToeGame();
+    }
+    if (data.pickedGame === "pong") {
+      //startPongGame();
+    }
+  }
 });
 
-const test = () => {
-  socket.emit("test", {
-    message: "hello from front-end",
+const joinRoom = (pickedGame) => {
+  // display loading...
+  socket.emit("room", {
+    action: "join room",
+    pickedGame: pickedGame,
   });
 };
 
-test();
+const ticTacToeBtn = document.querySelector(".ticTacToeBtn");
+const pongBtn = document.querySelector(".pongBtn");
+
+ticTacToeBtn.addEventListener("click", () => {
+  joinRoom("tic-tac-toe");
+});
+pongBtn.addEventListener("click", () => {
+  joinRoom("pong");
+});
