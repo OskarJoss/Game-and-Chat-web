@@ -1,0 +1,13 @@
+.chatContainer {
+  width: 250px;
+  border: 1px solid black;
+}
+
+.chatContainer .messagesContainer {
+  height: 250px;
+  overflow-y: scroll;
+}
+
+.chatContainer form {
+  padding: 10px;
+}

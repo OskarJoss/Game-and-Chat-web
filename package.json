@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "NODE_ENV=development parcel index.html",
-    "start": "NODE_ENV=production parcel build index.html"
+    "dev": "NODE_ENV=development php -S localhost:3000",
+    "start": "NODE_ENV=production"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,5 @@
     "dotenv": "^8.2.0",
     "socket.io-client": "^2.3.1"
   },
-  "devDependencies": {
-    "parcel-bundler": "^1.12.4"
-  }
+  "devDependencies": {}
 }

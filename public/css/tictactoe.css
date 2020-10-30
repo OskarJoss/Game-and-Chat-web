@@ -1,0 +1,22 @@
+.ticTacToeContainer .board {
+  height: 300px;
+  width: 300px;
+}
+
+.ticTacToeContainer .board .row {
+  height: 33%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.ticTacToeContainer .board .row .square {
+  height: 100%;
+  width: 33%;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

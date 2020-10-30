@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="stylesheet" href="/public/css/tictactoe.css">
+    <link rel="stylesheet" href="/public/css/chat.css">
+</head>
+<body>
+    <button class="startBtn">Start Game</button>
+    <h2 class="loadingText hidden">Loading...</h2>
+    <div class="ticTacToeContainer hidden">
+        <h2 class="turnText"></h2>
+        <div class="board"></div>
+    </div>
+    <div class="chatContainer hidden">
+        <div class="messagesContainer"></div>
+        <form>
+          <input type="text" name="message" />
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    <script src="./node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script type="text/javascript">
+        const socket = io('https://game-and-chat-server-a429y.ondigitalocean.app/');
+    </script>
+    <script src="/public/javascript/ticTacToe.js"></script>
+    <script src="/public/javascript/chat.js"></script>
+</body>
+</html>

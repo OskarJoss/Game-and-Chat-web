@@ -1,7 +1,10 @@
-import openSocket from "socket.io-client";
-const API =
-  process.env.NODE_ENV === "production"
-    ? process.env.API_PRODUCTION
-    : process.env.API_DEV;
+import io from "../../node_modules/socket.io-client/dist/socket.io";
 
-export const socket = openSocket(API);
+// const API =
+//   process.env.NODE_ENV === "production"
+//     ? process.env.API_PRODUCTION
+//     : process.env.API_DEV;
+
+const socket = io("http://localhost:8080");
+
+export default socket;
