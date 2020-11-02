@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong</title>
+    <link rel="stylesheet" href="/public/css/main.css">
+    <link rel="stylesheet" href="/public/css/pong.css">
+</head>
+<body>
+    <button class="startBtn">Start Game</button>
+    <h2 class="loadingText hidden">Loading...</h2>
+    <div id="sketch-holder" class="pongContainer hidden"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"></script>
+    <!-- <script type="text/javascript">
+        const socket = io("http://localhost:8080");
+    </script> -->
+    <script type="text/javascript">
+        const socket = io("https://game-and-chat-server-a429y.ondigitalocean.app/");
+    </script>
+    <script src="/public/javascript/pong.js"></script>
+</body>
+</html>

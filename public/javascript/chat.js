@@ -14,7 +14,6 @@ const sendMessage = (e) => {
 };
 
 const appendMessage = (message) => {
-  console.log(message);
   const p = document.createElement("p");
   p.textContent = message;
   messagesContainer.appendChild(p);
