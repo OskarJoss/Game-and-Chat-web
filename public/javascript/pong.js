@@ -16,11 +16,21 @@ socket.on("pong-game", (data) => {
   if (data.action === "initial gameState") {
     loadingText.classList.add("hidden");
     pongContainer.classList.remove("hidden");
-
     gameState = data.gameState;
 
+    if (socket.id === gameState.playerOne) {
+      playerPad.playerOnePosition();
+      opponentPad.playerTwoPosition();
+    } else {
+      playerPad.playerTwoPosition();
+      opponentPad.playerOnePosition();
+    }
     //test delay
     console.log(new Date().getMilliseconds());
+  }
+
+  if (data.action === "opponent pad position") {
+    opponentPad.updatePosition(data.position);
   }
 });
 
@@ -34,57 +44,41 @@ startBtn.addEventListener("click", () => {
 });
 
 let ball;
+let playerPad;
+let opponentPad;
 
 const FPS = 30;
-const BALL_SPEED = 2;
+const BALL_SPEED_X = 2;
+const BALL_SPEED_Y = 2;
 const BALL_SIZE = 10;
-// const WALL_OFFSET = 20;
-
-class Ball {
-  constructor() {
-    this.speed = BALL_SPEED;
-    this.size = BALL_SIZE;
-    this.x = width / 2;
-    this.y = height / 2;
-    //adjust for different screen sizes
-    this.velocityX = this.speed * (width / 200);
-    this.velocityY = this.speed * (height / (200 * (height / width)));
-  }
-
-  update() {
-    this.x += this.velocityX;
-    this.y += this.velocityY;
-    this.bounce();
-  }
-
-  bounce() {
-    if (this.x <= this.size || this.x + this.size >= width) {
-      this.velocityX *= -1;
-    }
-    if (this.y <= this.size || this.y + this.size >= height) {
-      this.velocityY *= -1;
-    }
-  }
-
-  show() {
-    ellipse(this.x, this.y, this.size, this.size);
-  }
-}
 
 function setup() {
-  const canvas = createCanvas(window.innerWidth, window.innerHeight);
+  const canvas = createCanvas(320, 600);
   canvas.parent("sketch-holder");
+  canvas.style("display", "block");
   background(236, 236, 236);
   frameRate(FPS);
 
   ball = new Ball();
+  playerPad = new Pad();
+  opponentPad = new Pad();
 }
 
 function draw() {
   if (gameState) {
     background(236, 236, 236);
 
+    if (keyIsDown(LEFT_ARROW)) {
+      playerPad.moveLeft();
+    }
+    if (keyIsDown(RIGHT_ARROW)) {
+      playerPad.moveRight();
+    }
+
+    playerPad.emitPosition();
     ball.show();
+    playerPad.show();
+    opponentPad.show();
     ball.update();
   }
 }
