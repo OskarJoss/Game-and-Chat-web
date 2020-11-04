@@ -47,19 +47,11 @@ let ball;
 let playerPad;
 let opponentPad;
 
-const FPS = 30;
-const BALL_SPEED_X = 2;
-const BALL_SPEED_Y = 2;
+const FPS = 50;
+const BALL_SPEED = 5;
 const BALL_SIZE = 10;
-
-// function touchMoved(e) {
-//   if (mouseX > pmouseX) {
-//     playerPad.moveRight();
-//   }
-//   if (mouseX < pmouseX) {
-//     playerPad.moveLeft();
-//   }
-// }
+const PAD_SPEED = 8;
+const HIT_MARGIN = 6;
 
 function setup() {
   const canvas = createCanvas(320, 600);
@@ -84,7 +76,6 @@ function draw() {
       playerPad.moveRight();
     }
 
-    playerPad.emitPosition();
     ball.show();
     playerPad.show();
     opponentPad.show();

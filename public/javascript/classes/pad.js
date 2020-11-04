@@ -4,7 +4,7 @@ class Pad {
     this.height = 3;
     this.x = width / 2 - this.width / 2;
     this.y = -100;
-    this.velocity = 4;
+    this.vel = PAD_SPEED;
   }
 
   show() {
@@ -12,6 +12,7 @@ class Pad {
   }
 
   playerOnePosition() {
+    //put outside canvas before starting and getting correct pos depending on who is player one
     this.y = height - 60;
   }
 
@@ -21,14 +22,16 @@ class Pad {
 
   moveLeft() {
     if (this.x > 0) {
-      this.x -= this.velocity;
+      this.x -= this.vel;
     }
+    this.emitPosition();
   }
 
   moveRight() {
     if (this.x < width - this.width) {
-      this.x += this.velocity;
+      this.x += this.vel;
     }
+    this.emitPosition();
   }
 
   emitPosition() {

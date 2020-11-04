@@ -1,28 +1,61 @@
 class Ball {
   constructor() {
     this.size = BALL_SIZE;
-    this.x = width / 2;
-    this.y = height / 2;
-    this.velocityX = BALL_SPEED_X;
-    this.velocityY = BALL_SPEED_Y;
+    this.speed = BALL_SPEED;
+    this.pos = createVector(width / 2, height / 2);
+    this.vel = createVector(1, 1).mult(this.speed);
+    this.radius = this.size / 2;
   }
 
   update() {
-    this.x += this.velocityX;
-    this.y += this.velocityY;
+    this.pos.add(this.vel);
     this.bounce();
+    this.padBounce();
   }
 
   bounce() {
-    if (this.x <= this.size / 2 || this.x + this.size / 2 >= width) {
-      this.velocityX *= -1;
+    if (this.pos.x <= this.radius || this.pos.x + this.radius >= width) {
+      this.vel.x *= -1;
     }
-    if (this.y <= this.size / 2 || this.y + this.size / 2 >= height) {
-      this.velocityY *= -1;
+    if (this.pos.y <= this.radius || this.pos.y + this.radius >= height) {
+      this.vel.y *= -1;
+    }
+  }
+
+  padBounce() {
+    //this logic will have to change if I want to put the player at the bottom on both screens
+    //check if playerPad is on top or bottom to adjust hit area accordingly
+    //top
+    if (playerPad.y < height / 2) {
+      const ballPos = this.pos.y - this.radius;
+      if (
+        ballPos > playerPad.y - HIT_MARGIN &&
+        ballPos <= playerPad.y &&
+        this.pos.x >= playerPad.x &&
+        this.pos.x <= playerPad.x + playerPad.width
+      ) {
+        if (this.vel.y < 0) {
+          this.vel.y *= -1;
+        }
+      }
+    }
+    //bottom
+    if (playerPad.y > height / 2) {
+      const ballPos = this.pos.y + this.radius;
+      if (
+        ballPos < playerPad.y + HIT_MARGIN &&
+        ballPos >= playerPad.y &&
+        this.pos.x >= playerPad.x &&
+        this.pos.x <= playerPad.x + playerPad.width
+      ) {
+        if (this.vel.y > 0) {
+          this.vel.y *= -1;
+        }
+      }
     }
   }
 
   show() {
-    ellipse(this.x, this.y, this.size, this.size);
+    ellipse(this.pos.x, this.pos.y, this.size, this.size);
   }
 }
