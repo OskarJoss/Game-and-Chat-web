@@ -56,6 +56,7 @@ const BALL_SPEED = 5;
 const BALL_SIZE = 10;
 const PAD_SPEED = 8;
 const HIT_MARGIN = 6;
+const MINIMUM_BALL_ANGLE = 0.3;
 
 function setup() {
   const canvas = createCanvas(320, 600);

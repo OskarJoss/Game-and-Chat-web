@@ -40,6 +40,7 @@ class Ball {
         this.pos.x <= playerPad.x + playerPad.width
       ) {
         if (this.vel.y < 0) {
+          this.vel.x = this.calculateAngle();
           this.vel.y *= -1;
           this.emitPosition();
         }
@@ -55,6 +56,7 @@ class Ball {
         this.pos.x <= playerPad.x + playerPad.width
       ) {
         if (this.vel.y > 0) {
+          this.vel.x = this.calculateAngle();
           this.vel.y *= -1;
           this.emitPosition();
         }
@@ -77,5 +79,23 @@ class Ball {
     this.pos.y = posY;
     this.vel.x = velX;
     this.vel.y = velY;
+  }
+
+  calculateAngle() {
+    let angle = (this.pos.x - playerPad.x) / playerPad.width;
+    if (angle < 0.5) {
+      angle = 1 - angle * 2;
+      if (angle < MINIMUM_BALL_ANGLE) {
+        angle = MINIMUM_BALL_ANGLE;
+      }
+      angle = -angle * this.speed;
+    } else {
+      angle = (angle - 0.5) * 2;
+      if (angle < 1 - MINIMUM_BALL_ANGLE) {
+        angle = 1 - MINIMUM_BALL_ANGLE;
+      }
+      angle = angle * this.speed;
+    }
+    return angle;
   }
 }
