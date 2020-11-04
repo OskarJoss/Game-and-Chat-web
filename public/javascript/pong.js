@@ -52,6 +52,15 @@ const BALL_SPEED_X = 2;
 const BALL_SPEED_Y = 2;
 const BALL_SIZE = 10;
 
+// function touchMoved(e) {
+//   if (mouseX > pmouseX) {
+//     playerPad.moveRight();
+//   }
+//   if (mouseX < pmouseX) {
+//     playerPad.moveLeft();
+//   }
+// }
+
 function setup() {
   const canvas = createCanvas(320, 600);
   canvas.parent("sketch-holder");
@@ -68,10 +77,10 @@ function draw() {
   if (gameState) {
     background(236, 236, 236);
 
-    if (keyIsDown(LEFT_ARROW)) {
+    if (keyIsDown(LEFT_ARROW) || mouseX < pmouseX) {
       playerPad.moveLeft();
     }
-    if (keyIsDown(RIGHT_ARROW)) {
+    if (keyIsDown(RIGHT_ARROW) || mouseX > pmouseX) {
       playerPad.moveRight();
     }
 
