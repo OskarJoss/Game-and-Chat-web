@@ -29,6 +29,10 @@ socket.on("pong-game", (data) => {
     console.log(new Date().getMilliseconds());
   }
 
+  if (data.action === "new ball position") {
+    ball.updatePosition(data.posX, data.posY, data.velX, data.velY);
+  }
+
   if (data.action === "opponent pad position") {
     opponentPad.updatePosition(data.position);
   }

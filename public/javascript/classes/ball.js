@@ -7,13 +7,17 @@ class Ball {
     this.radius = this.size / 2;
   }
 
+  show() {
+    ellipse(this.pos.x, this.pos.y, this.size, this.size);
+  }
+
   update() {
     this.pos.add(this.vel);
-    this.bounce();
+    this.wallBounce();
     this.padBounce();
   }
 
-  bounce() {
+  wallBounce() {
     if (this.pos.x <= this.radius || this.pos.x + this.radius >= width) {
       this.vel.x *= -1;
     }
@@ -25,6 +29,7 @@ class Ball {
   padBounce() {
     //this logic will have to change if I want to put the player at the bottom on both screens
     //check if playerPad is on top or bottom to adjust hit area accordingly
+
     //top
     if (playerPad.y < height / 2) {
       const ballPos = this.pos.y - this.radius;
@@ -36,6 +41,7 @@ class Ball {
       ) {
         if (this.vel.y < 0) {
           this.vel.y *= -1;
+          this.emitPosition();
         }
       }
     }
@@ -50,12 +56,26 @@ class Ball {
       ) {
         if (this.vel.y > 0) {
           this.vel.y *= -1;
+          this.emitPosition();
         }
       }
     }
   }
 
-  show() {
-    ellipse(this.pos.x, this.pos.y, this.size, this.size);
+  emitPosition() {
+    socket.emit("pong-game", {
+      action: "ball position",
+      posX: this.pos.x,
+      posY: this.pos.y,
+      velX: this.vel.x,
+      velY: this.vel.y,
+    });
+  }
+
+  updatePosition(posX, posY, velX, velY) {
+    this.pos.x = posX;
+    this.pos.y = posY;
+    this.vel.x = velX;
+    this.vel.y = velY;
   }
 }
