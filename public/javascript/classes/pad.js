@@ -44,4 +44,8 @@ class Pad {
   updatePosition(posX) {
     this.x = posX;
   }
+
+  reset() {
+    this.x = width / 2 - this.width / 2;
+  }
 }

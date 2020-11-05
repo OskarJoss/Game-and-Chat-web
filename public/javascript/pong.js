@@ -25,8 +25,6 @@ socket.on("pong-game", (data) => {
       playerPad.playerTwoPosition();
       opponentPad.playerOnePosition();
     }
-    //test delay
-    console.log(new Date().getMilliseconds());
   }
 
   if (data.action === "new ball position") {
@@ -35,6 +33,20 @@ socket.on("pong-game", (data) => {
 
   if (data.action === "opponent pad position") {
     opponentPad.updatePosition(data.position);
+  }
+
+  if (data.action === "point scored") {
+    gameState = data.gameState;
+    if (socket.id === gameState.playerOne) {
+      playerScoreText = `YOU: ${data.gameState.score.playerOne}`;
+      opponentScoreText = `OPPONENT: ${data.gameState.score.playerTwo}`;
+    } else {
+      playerScoreText = `YOU: ${data.gameState.score.playerTwo}`;
+      opponentScoreText = `OPPONENT: ${data.gameState.score.playerOne}`;
+    }
+    playerPad.reset();
+    opponentPad.reset();
+    ball.reset();
   }
 });
 
@@ -50,11 +62,13 @@ startBtn.addEventListener("click", () => {
 let ball;
 let playerPad;
 let opponentPad;
+let playerScoreText = "YOU: 0";
+let opponentScoreText = "OPPONENT: 0";
 
 const FPS = 50;
 const BALL_SPEED = 5;
 const BALL_SIZE = 10;
-const PAD_SPEED = 8;
+const PAD_SPEED = 12;
 const HIT_MARGIN = 6;
 const MINIMUM_BALL_ANGLE = 0.3;
 
@@ -73,17 +87,34 @@ function setup() {
 function draw() {
   if (gameState) {
     background(236, 236, 236);
+    if (!gameState.winner) {
+      if (keyIsDown(LEFT_ARROW) || mouseX < pmouseX) {
+        playerPad.moveLeft();
+      }
+      if (keyIsDown(RIGHT_ARROW) || mouseX > pmouseX) {
+        playerPad.moveRight();
+      }
 
-    if (keyIsDown(LEFT_ARROW) || mouseX < pmouseX) {
-      playerPad.moveLeft();
-    }
-    if (keyIsDown(RIGHT_ARROW) || mouseX > pmouseX) {
-      playerPad.moveRight();
-    }
+      if (socket.id === gameState.playerOne) {
+        text(playerScoreText, 10, height - 10);
+        text(opponentScoreText, 10, 20);
+      } else {
+        text(opponentScoreText, 10, height - 10);
+        text(playerScoreText, 10, 20);
+      }
 
-    ball.show();
-    playerPad.show();
-    opponentPad.show();
-    ball.update();
+      ball.show();
+      playerPad.show();
+      opponentPad.show();
+      ball.update();
+    } else {
+      textSize(30);
+      textAlign(CENTER);
+      if (socket.id === gameState.winner) {
+        text("YOU WIN!!", 0, height / 2 - 30, width, 70);
+      } else {
+        text("YOU LOOSE!!", 0, height / 2 - 30, width, 70);
+      }
+    }
   }
 }

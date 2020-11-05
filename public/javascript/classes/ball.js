@@ -5,6 +5,7 @@ class Ball {
     this.pos = createVector(width / 2, height / 2);
     this.vel = createVector(1, 1).mult(this.speed);
     this.radius = this.size / 2;
+    this.outOfBounds = false;
   }
 
   show() {
@@ -18,11 +19,22 @@ class Ball {
   }
 
   wallBounce() {
-    if (this.pos.x <= this.radius || this.pos.x + this.radius >= width) {
-      this.vel.x *= -1;
-    }
-    if (this.pos.y <= this.radius || this.pos.y + this.radius >= height) {
-      this.vel.y *= -1;
+    if (!this.outOfBounds) {
+      //bounce off side walls
+      if (this.pos.x <= this.radius || this.pos.x + this.radius >= width) {
+        this.vel.x *= -1;
+      }
+      //only playerPad sends event when losing a point
+      //player is in top position
+      if (playerPad.y < height / 2 && this.pos.y <= this.radius) {
+        this.emitLostPoint();
+        this.outOfBounds = true;
+      }
+      //player is in bottom position
+      if (playerPad.y > height / 2 && this.pos.y + this.radius >= height) {
+        this.emitLostPoint();
+        this.outOfBounds = true;
+      }
     }
   }
 
@@ -97,5 +109,17 @@ class Ball {
       angle = angle * this.speed;
     }
     return angle;
+  }
+
+  emitLostPoint() {
+    socket.emit("pong-game", {
+      action: "lost point",
+    });
+  }
+
+  reset() {
+    this.pos = createVector(width / 2, height / 2);
+    this.vel = createVector(1, 1).mult(this.speed);
+    this.outOfBounds = false;
   }
 }
