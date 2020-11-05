@@ -93,6 +93,12 @@ class Ball {
     this.vel.y = velY;
   }
 
+  //random directions from server, speed not added
+  updateDirection(velX, velY) {
+    this.vel.x = velX * this.speed;
+    this.vel.y = velY * this.speed;
+  }
+
   calculateAngle() {
     let angle = (this.pos.x - playerPad.x) / playerPad.width;
     if (angle < 0.5) {

@@ -12,7 +12,7 @@ class Pad {
   }
 
   playerOnePosition() {
-    //put outside canvas before starting and getting correct pos depending on who is player one
+    //put outside canvas before starting and get correct pos depending on who is player one
     this.y = height - 60;
   }
 
