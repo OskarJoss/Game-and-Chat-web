@@ -1,6 +1,8 @@
 const pongContainer = document.querySelector(".pongContainer");
 const startBtn = document.querySelector(".startBtn");
 const loadingText = document.querySelector(".loadingText");
+const gameOverDiv = document.querySelector(".gameOver");
+const playAgainBtn = gameOverDiv.querySelector(".playAgainBtn");
 
 let gameState;
 
@@ -18,6 +20,10 @@ socket.on("pong-game", (data) => {
     loadingText.classList.add("hidden");
     pongContainer.classList.remove("hidden");
     gameState = data.gameState;
+    playerScoreText = "YOU:  0";
+    opponentScoreText = "OPPONENT:  0";
+    countDown = 3;
+    scorePause = false;
 
     ball.updateDirection(gameState.ballAngle.velX, gameState.ballAngle.velY);
 
@@ -41,8 +47,8 @@ socket.on("pong-game", (data) => {
   if (data.action === "point scored") {
     gameState = data.gameState;
     if (socket.id === gameState.playerOne) {
-      playerScoreText = `YOU: ${data.gameState.score.playerOne}`;
-      opponentScoreText = `OPPONENT: ${data.gameState.score.playerTwo}`;
+      playerScoreText = `YOU:  ${data.gameState.score.playerOne}`;
+      opponentScoreText = `OPPONENT:  ${data.gameState.score.playerTwo}`;
     } else {
       playerScoreText = `YOU: ${data.gameState.score.playerTwo}`;
       opponentScoreText = `OPPONENT: ${data.gameState.score.playerOne}`;
@@ -65,28 +71,42 @@ startBtn.addEventListener("click", () => {
   });
 });
 
+playAgainBtn.addEventListener("click", () => {
+  gameState = null;
+  pongContainer.classList.add("hidden");
+  gameOverDiv.classList.add("hidden");
+  loadingText.classList.remove("hidden");
+  socket.emit("room", {
+    action: "join room",
+    pickedGame: "pong",
+  });
+});
+
 //p5js logic
 let ball;
 let playerPad;
 let opponentPad;
-let playerScoreText = "YOU: 0";
-let opponentScoreText = "OPPONENT: 0";
-let scorePause = false;
-let scorePauseCounter = 0;
+let playerScoreText = "YOU:  0";
+let opponentScoreText = "OPPONENT:  0";
+let scorePause;
+let scorePauseFrameCounter = 0;
+let countDown;
+let countDownFrameCounter = 0;
 
 const FPS = 50;
 const BALL_SPEED = 5;
 const BALL_SIZE = 10;
 const PAD_SPEED = 12;
+const WALL_OFFSET = 3;
 const HIT_MARGIN = 6;
 const MINIMUM_BALL_ANGLE = 0.3;
 const SCORE_PAUSE_FRAMES = 150;
+const COUNT_DOWN_FRAMES = 60;
 
 function setup() {
   const canvas = createCanvas(320, 600);
   canvas.parent("sketch-holder");
   canvas.style("display", "block");
-  background(236, 236, 236);
   frameRate(FPS);
   textFont("Righteous");
 
@@ -100,16 +120,39 @@ function draw() {
     background(0, 0, 0);
     stroke(255, 255, 255);
     fill(255, 255, 255);
+    rect(0, 0, WALL_OFFSET, height);
+    rect(width - WALL_OFFSET, 0, WALL_OFFSET, height);
+    textSize(15);
+    textAlign(LEFT);
+    if (socket.id === gameState.playerOne) {
+      text(playerScoreText, 10, height - 10);
+      text(opponentScoreText, 10, 20);
+    } else {
+      text(opponentScoreText, 10, height - 10);
+      text(playerScoreText, 10, 20);
+    }
 
     if (!gameState.winner) {
-      if (scorePause) {
-        //score pause loop
+      if (countDown) {
+        //show countdown at start
+        textSize(60);
+        textAlign(CENTER);
+        text(countDown, 0, height / 2 - 35, width, 70);
+        countDownFrameCounter++;
+        if (countDownFrameCounter >= COUNT_DOWN_FRAMES) {
+          countDown--;
+          countDownFrameCounter = 0;
+        }
+        playerPad.show();
+        opponentPad.show();
+      } else if (scorePause) {
+        //show score update after scored point
         textSize(30);
         textAlign(CENTER);
         if (gameState.latestPoint === socket.id) {
-          text("SCORE!!", 0, height / 2 - 30, width, 70);
+          text("SCORE!!!", 0, height / 2 - 30, width, 70);
         } else {
-          text("TOO BAD!", 0, height / 2 - 30, width, 70);
+          text("TOO BAD!!!", 0, height / 2 - 30, width, 70);
         }
         if (socket.id === gameState.playerOne) {
           text(
@@ -128,9 +171,9 @@ function draw() {
             70
           );
         }
-        scorePauseCounter++;
-        if (scorePauseCounter >= SCORE_PAUSE_FRAMES) {
-          scorePauseCounter = 0;
+        scorePauseFrameCounter++;
+        if (scorePauseFrameCounter >= SCORE_PAUSE_FRAMES) {
+          scorePauseFrameCounter = 0;
           scorePause = false;
         }
       } else {
@@ -140,16 +183,6 @@ function draw() {
         }
         if (keyIsDown(RIGHT_ARROW) || mouseX > pmouseX) {
           playerPad.moveRight();
-        }
-
-        textSize(15);
-        textAlign(LEFT);
-        if (socket.id === gameState.playerOne) {
-          text(playerScoreText, 10, height - 10);
-          text(opponentScoreText, 10, 20);
-        } else {
-          text(opponentScoreText, 10, height - 10);
-          text(playerScoreText, 10, 20);
         }
 
         ball.show();
@@ -166,6 +199,7 @@ function draw() {
       } else {
         text("YOU LOOSE!!", 0, height / 2 - 30, width, 70);
       }
+      gameOverDiv.classList.remove("hidden");
     }
   }
 }

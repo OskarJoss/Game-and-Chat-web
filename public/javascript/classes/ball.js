@@ -21,7 +21,10 @@ class Ball {
   wallBounce() {
     if (!this.outOfBounds) {
       //bounce off side walls
-      if (this.pos.x <= this.radius || this.pos.x + this.radius >= width) {
+      if (
+        this.pos.x <= this.radius + WALL_OFFSET ||
+        this.pos.x + this.radius - WALL_OFFSET >= width
+      ) {
         this.vel.x *= -1;
       }
       //only playerPad sends event when losing a point
