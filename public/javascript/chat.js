@@ -13,16 +13,25 @@ const sendMessage = (e) => {
   input.value = "";
 };
 
-const appendMessage = (message) => {
+const appendMessage = (message, sender) => {
+  let from;
+  if (sender === socket.id) {
+    from = "You: ";
+  } else {
+    from = "Opponent: ";
+    if (chatContainer.classList.contains("hidden")) {
+      unreadMessages.classList.remove("hidden");
+    }
+  }
   const p = document.createElement("p");
-  p.textContent = message;
+  p.textContent = from + message;
   messagesContainer.appendChild(p);
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 };
 
 socket.on("chat", (data) => {
   if (data.action === "incoming message") {
-    appendMessage(data.message);
+    appendMessage(data.message, data.sender);
   }
 });
 

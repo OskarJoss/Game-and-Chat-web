@@ -1,13 +1,32 @@
 .chatContainer {
-  width: 250px;
+  z-index: 100;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
   border: 1px solid black;
 }
 
 .chatContainer .messagesContainer {
-  height: 250px;
+  padding-top: 50px;
   overflow-y: scroll;
 }
 
 .chatContainer form {
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid black;
+  height: 60px;
+  width: 100%;
   padding: 10px;
+}
+
+.chatContainer .closeButton {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 50px;
+  font-size: 50px;
 }

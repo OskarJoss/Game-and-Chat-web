@@ -22,14 +22,24 @@
           <input type="text" name="message" />
           <button type="submit">Send</button>
         </form>
+        <div class="closeButton">X</div>
+    </div>
+    <div class="gameOver hidden">
+        <h1 class="gameOverText"></h1>
+        <button class="playAgainBtn">Play again</button>
+        <a href="/"><button>Home</button></a>
+    </div>
+    <div class="chatIconContainer hidden">
+        <img src="/public/icons/paper-plane.svg" alt="message icon">
+        <div class="unreadMessages hidden"></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.1/socket.io.js"></script>
-    <script type="text/javascript">
-        const socket = io('http://localhost:8080');
-    </script>
     <!-- <script type="text/javascript">
-        const socket = io('https://game-and-chat-server-a429y.ondigitalocean.app/');
+        const socket = io('http://localhost:8080');
     </script> -->
+    <script type="text/javascript">
+        const socket = io('https://game-and-chat-server-a429y.ondigitalocean.app/');
+    </script>
     <script src="/public/javascript/ticTacToe.js"></script>
     <script src="/public/javascript/chat.js"></script>
 </body>

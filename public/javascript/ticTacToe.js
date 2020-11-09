@@ -4,8 +4,16 @@ const startBtn = document.querySelector(".startBtn");
 const loadingText = document.querySelector(".loadingText");
 const turnText = document.querySelector(".turnText");
 const chatContainer = document.querySelector(".chatContainer");
+const gameOverDiv = document.querySelector(".gameOver");
+const gameOverText = gameOverDiv.querySelector(".gameOverText");
+const playAgainBtn = document.querySelector(".playAgainBtn");
+const chatIconContainer = document.querySelector(".chatIconContainer");
+const closeChatBtn = chatContainer.querySelector(".closeButton");
+const unreadMessages = chatIconContainer.querySelector(".unreadMessages");
 
 let gameState;
+
+//functions
 
 const drawBoard = (gameState) => {
   let rowNumber = 0;
@@ -56,12 +64,18 @@ const updateBoard = (gameState) => {
   });
 
   if (gameState.winner) {
+    turnText.textContent = "Game over";
     if (gameState.winner === "draw") {
-      turnText.textContent = "Draw";
+      gameOverText.textContent = "Draw";
     } else {
-      turnText.textContent =
+      gameOverText.textContent =
         gameState.winner === socket.id ? "You win!" : "You loose!";
     }
+    gameOverDiv.classList.remove("hidden");
+    const squares = document.querySelectorAll(".square");
+    squares.forEach((square) => {
+      square.removeEventListener("click", handleSquareClick);
+    });
   }
 };
 
@@ -79,6 +93,13 @@ const placeSymbol = (e) => {
     });
   }
 };
+
+//added to be able to remove eventlisteners
+const handleSquareClick = (e) => {
+  placeSymbol(e);
+};
+
+//socket events
 
 socket.on("room", (data) => {
   if (data.action === "joined room") {
@@ -98,7 +119,7 @@ socket.on("tic-tac-toe", (data) => {
   if (data.action === "initial gameState") {
     loadingText.classList.add("hidden");
     ticTacToeContainer.classList.remove("hidden");
-    chatContainer.classList.remove("hidden");
+    chatIconContainer.classList.remove("hidden");
     turnText.textContent =
       data.gameState.turn === socket.id ? "Your turn" : "Opponents turn";
 
@@ -107,16 +128,17 @@ socket.on("tic-tac-toe", (data) => {
 
     const squares = document.querySelectorAll(".square");
     squares.forEach((square) => {
-      square.addEventListener("click", (e) => {
-        placeSymbol(e);
-      });
+      square.addEventListener("click", handleSquareClick);
     });
   }
+
   if (data.action === "update gameState") {
     gameState = data.gameState;
     updateBoard(gameState);
   }
 });
+
+//event listeners
 
 startBtn.addEventListener("click", () => {
   startBtn.classList.add("hidden");
@@ -125,4 +147,25 @@ startBtn.addEventListener("click", () => {
     action: "join room",
     pickedGame: "tic-tac-toe",
   });
+});
+
+playAgainBtn.addEventListener("click", () => {
+  board.innerHTML = "";
+  ticTacToeContainer.classList.add("hidden");
+  gameOverDiv.classList.add("hidden");
+  chatIconContainer.classList.add("hidden");
+  loadingText.classList.remove("hidden");
+  socket.emit("room", {
+    action: "join room",
+    pickedGame: "tic-tac-toe",
+  });
+});
+
+chatIconContainer.addEventListener("click", () => {
+  chatContainer.classList.remove("hidden");
+  unreadMessages.classList.add("hidden");
+});
+
+closeChatBtn.addEventListener("click", () => {
+  chatContainer.classList.add("hidden");
 });

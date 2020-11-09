@@ -1,6 +1,6 @@
 .ticTacToeContainer .board {
-  height: 300px;
-  width: 300px;
+  width: 100vw;
+  height: 100vw;
 }
 
 .ticTacToeContainer .board .row {
@@ -19,4 +19,27 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.chatIconContainer {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  height: 44px;
+  width: 44px;
+}
+
+.chatIconContainer img {
+  height: 100%;
+  width: 100%;
+}
+
+.chatIconContainer .unreadMessages {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: red;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
 }
