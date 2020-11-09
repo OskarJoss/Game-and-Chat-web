@@ -13,6 +13,12 @@ socket.on("room", (data) => {
       action: "start game",
     });
   }
+  if (data.action === "opponent disconnected") {
+    //dont show disconnect-screen if game is over
+    if (!gameState.winner) {
+      window.location.replace("/disconnect.html?game=pong");
+    }
+  }
 });
 
 socket.on("pong-game", (data) => {
