@@ -23,7 +23,7 @@
   width: 100%;
 }
 
-.gameOver .btnContainer {
+.gameOver .pongBtnContainer {
   height: 100%;
   width: 100%;
   display: flex;
@@ -31,7 +31,7 @@
   align-items: center;
 }
 
-.gameOver .btnWrapper {
+.gameOver .pongBtnWrapper {
   transform: translateY(70px);
   display: flex;
   flex-direction: column;
@@ -39,8 +39,7 @@
   align-items: center;
 }
 
-.gameOver button,
-.gameOver a {
+.pongBtn {
   margin-top: 20px;
   padding: 5px 10px;
   font-family: "Righteous";

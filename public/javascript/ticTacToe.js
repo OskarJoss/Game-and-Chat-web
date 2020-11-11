@@ -1,7 +1,7 @@
 const ticTacToeContainer = document.querySelector(".ticTacToeContainer");
 const board = document.querySelector(".board");
 const startBtn = document.querySelector(".startBtn");
-const loadingText = document.querySelector(".loadingText");
+const loadingDiv = document.querySelector(".loadingDiv");
 const turnText = document.querySelector(".turnText");
 const chatContainer = document.querySelector(".chatContainer");
 const gameOverDiv = document.querySelector(".gameOver");
@@ -10,6 +10,7 @@ const playAgainBtn = document.querySelector(".playAgainBtn");
 const chatIconContainer = document.querySelector(".chatIconContainer");
 const closeChatBtn = chatContainer.querySelector(".closeButton");
 const unreadMessages = chatIconContainer.querySelector(".unreadMessages");
+const textContainer = document.querySelector(".textContainer");
 
 let gameState;
 
@@ -117,7 +118,7 @@ socket.on("room", (data) => {
 
 socket.on("tic-tac-toe", (data) => {
   if (data.action === "initial gameState") {
-    loadingText.classList.add("hidden");
+    loadingDiv.classList.add("hidden");
     ticTacToeContainer.classList.remove("hidden");
     chatIconContainer.classList.remove("hidden");
     turnText.textContent =
@@ -142,7 +143,8 @@ socket.on("tic-tac-toe", (data) => {
 
 startBtn.addEventListener("click", () => {
   startBtn.classList.add("hidden");
-  loadingText.classList.remove("hidden");
+  textContainer.classList.add("hidden");
+  loadingDiv.classList.remove("hidden");
   socket.emit("room", {
     action: "join room",
     pickedGame: "tic-tac-toe",
@@ -154,7 +156,7 @@ playAgainBtn.addEventListener("click", () => {
   ticTacToeContainer.classList.add("hidden");
   gameOverDiv.classList.add("hidden");
   chatIconContainer.classList.add("hidden");
-  loadingText.classList.remove("hidden");
+  loadingDiv.classList.remove("hidden");
   socket.emit("room", {
     action: "join room",
     pickedGame: "tic-tac-toe",

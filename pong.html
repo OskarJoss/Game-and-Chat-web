@@ -8,17 +8,28 @@
     <link rel="stylesheet" href="/public/css/main.css">
     <link rel="stylesheet" href="/public/css/pong.css">
     <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Modak&family=Shadows+Into+Light&display=swap" rel="stylesheet">
 </head>
 <body>
-    <button class="startBtn">Start Game</button>
-    <h2 class="loadingText hidden">Loading...</h2>
+    <div class="textContainer">
+        <h1 class="h1">PONG</h1>
+        <p class="p">GET 3 POINTS TO WIN</p>
+    </div>
+    <div class="btnWrapper">
+        <button class="button startBtn">PLAY</button>
+    </div>
+    <div class="loadingDiv hidden">
+        <h2 class="p loadingText">Waiting for opponent...</h2>
+        <div class="loading"></div>
+    </div>
     <div class="pongContainer hidden">
         <div class="pongWrapper" id="sketch-holder"></div>
         <div class="gameOver hidden">
-            <div class="btnContainer">
-                <div class="btnWrapper">
-                    <button class="playAgainBtn">PLAY AGAIN</button>
-                    <a class="homeBtn" href="/">HOME</a>
+            <div class="pongBtnContainer">
+                <div class="pongBtnWrapper">
+                    <button class="pongBtn playAgainBtn">PLAY AGAIN</button>
+                    <a class="pongBtn homeBtn" href="/">HOME</a>
                 </div>
             </div>
         </div>

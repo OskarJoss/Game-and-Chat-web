@@ -5,13 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic-Tac-Toe</title>
     <link href="https://unpkg.com/sanitize.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Modak&family=Shadows+Into+Light&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/public/css/main.css">
     <link rel="stylesheet" href="/public/css/tictactoe.css">
     <link rel="stylesheet" href="/public/css/chat.css">
 </head>
 <body>
-    <button class="startBtn">Start Game</button>
-    <h2 class="loadingText hidden">Loading...</h2>
+    <div class="textContainer">
+        <h1 class="h1">TIC-TAC-TOE</h1>
+        <p class="p">GET 3 IN A ROW TO WIN</p>
+    </div>
+    <div class="btnWrapper">
+        <button class="button startBtn">Start Game</button>
+    </div>
+    <div class="loadingDiv hidden">
+        <h2 class="p loadingText">Waiting for opponent...</h2>
+        <div class="loading"></div>
+    </div>
     <div class="ticTacToeContainer hidden">
         <h2 class="turnText"></h2>
         <div class="board"></div>

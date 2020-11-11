@@ -1,8 +1,9 @@
 const pongContainer = document.querySelector(".pongContainer");
 const startBtn = document.querySelector(".startBtn");
-const loadingText = document.querySelector(".loadingText");
+const loadingDiv = document.querySelector(".loadingDiv");
 const gameOverDiv = document.querySelector(".gameOver");
 const playAgainBtn = gameOverDiv.querySelector(".playAgainBtn");
+const textContainer = document.querySelector(".textContainer");
 
 let gameState;
 
@@ -23,7 +24,7 @@ socket.on("room", (data) => {
 
 socket.on("pong-game", (data) => {
   if (data.action === "initial gameState") {
-    loadingText.classList.add("hidden");
+    loadingDiv.classList.add("hidden");
     pongContainer.classList.remove("hidden");
     gameState = data.gameState;
     playerScoreText = "YOU:  0";
@@ -70,7 +71,8 @@ socket.on("pong-game", (data) => {
 //event listeners
 startBtn.addEventListener("click", () => {
   startBtn.classList.add("hidden");
-  loadingText.classList.remove("hidden");
+  textContainer.classList.add("hidden");
+  loadingDiv.classList.remove("hidden");
   socket.emit("room", {
     action: "join room",
     pickedGame: "pong",
@@ -81,7 +83,7 @@ playAgainBtn.addEventListener("click", () => {
   gameState = null;
   pongContainer.classList.add("hidden");
   gameOverDiv.classList.add("hidden");
-  loadingText.classList.remove("hidden");
+  loadingDiv.classList.remove("hidden");
   socket.emit("room", {
     action: "join room",
     pickedGame: "pong",
