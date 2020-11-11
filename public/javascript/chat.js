@@ -1,3 +1,4 @@
+const messagesWrapper = document.querySelector(".messagesWrapper");
 const messagesContainer = document.querySelector(
   ".chatContainer .messagesContainer"
 );
@@ -14,19 +15,21 @@ const sendMessage = (e) => {
 };
 
 const appendMessage = (message, sender) => {
+  const p = document.createElement("p");
   let from;
   if (sender === socket.id) {
     from = "You: ";
+    p.classList.add("you");
   } else {
     from = "Opponent: ";
+    p.classList.add("opponent");
     if (chatContainer.classList.contains("hidden")) {
       unreadMessages.classList.remove("hidden");
     }
   }
-  const p = document.createElement("p");
   p.textContent = from + message;
   messagesContainer.appendChild(p);
-  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  messagesWrapper.scrollTop = messagesContainer.scrollHeight;
 };
 
 socket.on("chat", (data) => {

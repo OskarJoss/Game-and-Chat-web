@@ -35,6 +35,8 @@
   right: 20px;
   height: 44px;
   width: 44px;
+  background-color: white;
+  border-radius: 50%;
 }
 
 .chatIconContainer img {
@@ -50,4 +52,24 @@
   border-radius: 50%;
   height: 15px;
   width: 15px;
+}
+
+.turnText {
+  font-family: "Shadows Into Light", cursive;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.gameOver div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gameOver div .button {
+  margin-right: 20px;
+}
+
+.gameOverText {
+  text-transform: uppercase;
 }

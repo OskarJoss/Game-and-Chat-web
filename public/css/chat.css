@@ -8,25 +8,71 @@
   border: 1px solid black;
 }
 
-.chatContainer .messagesContainer {
-  padding-top: 50px;
+.messagesWrapper {
+  height: calc(100vh - 80px);
+  width: 100vw;
   overflow-y: scroll;
 }
 
+.chatContainer .messagesContainer {
+  padding-top: 70px;
+}
+
+.chatContainer .messagesContainer p {
+  margin: 5px;
+  font-size: 20px;
+  font-family: "arial";
+}
+.chatContainer .messagesContainer p.you {
+  color: rgb(22, 114, 22);
+}
+.chatContainer .messagesContainer p.opponent {
+  color: rgb(231, 34, 34);
+}
+
 .chatContainer form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   bottom: 0;
-  border-top: 1px solid black;
-  height: 60px;
+  border-top: 3px solid black;
+  height: 80px;
   width: 100%;
-  padding: 10px;
+}
+.chatContainer form input {
+  height: 100%;
+  width: 80%;
+  border: none;
+  font-size: 20px;
+  font-family: "arial";
+}
+
+.chatContainer form button {
+  height: 100%;
+  width: 20%;
+  border: 3px solid black;
+  border-top: none;
+  background-color: rgb(126, 164, 235);
+  text-transform: uppercase;
+  font-size: 25px;
+  font-family: "Shadows Into Light", cursive;
 }
 
 .chatContainer .closeButton {
   position: absolute;
+  font-family: "Shadows Into Light", cursive;
   top: 0;
   left: 50%;
+  text-align: center;
   transform: translateX(-50%);
-  height: 50px;
+  height: 70px;
+  width: 70px;
   font-size: 50px;
+}
+
+::placeholder {
+  font-size: 20px;
+  font-family: "arial";
+  color: rgb(54, 118, 236);
 }
