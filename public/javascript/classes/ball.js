@@ -27,17 +27,7 @@ class Ball {
       ) {
         this.vel.x *= -1;
       }
-      //only playerPad sends event when losing a point
-      //player is in top position
-      // if (playerPad.y < height / 2 && this.pos.y <= this.radius) {
-      //   this.emitLostPoint();
-      //   this.outOfBounds = true;
-      // }
-      //player is in bottom position
-      // if (playerPad.y > height / 2 && this.pos.y + this.radius >= height) {
-      //   this.emitLostPoint();
-      //   this.outOfBounds = true;
-      // }
+      //passing bottom line
       if (this.pos.y + this.radius >= height) {
         this.emitLostPoint();
         this.outOfBounds = true;
@@ -46,27 +36,7 @@ class Ball {
   }
 
   padBounce() {
-    //this logic will have to change if I want to put the player at the bottom on both screens
-    //check if playerPad is on top or bottom to adjust hit area accordingly
-
-    //top
-    // if (playerPad.y < height / 2) {
-    //   const ballPos = this.pos.y - this.radius;
-    //   if (
-    //     ballPos > playerPad.y - HIT_MARGIN &&
-    //     ballPos <= playerPad.y &&
-    //     this.pos.x >= playerPad.x &&
-    //     this.pos.x <= playerPad.x + playerPad.width
-    //   ) {
-    //     if (this.vel.y < 0) {
-    //       this.vel.x = this.calculateAngle();
-    //       this.vel.y *= -1;
-    //       this.emitPosition();
-    //     }
-    //   }
-    // }
-    //bottom
-    // if (playerPad.y > height / 2) {
+    //only check for bounce on playerPad
     const ballPos = this.pos.y + this.radius;
     if (
       ballPos < playerPad.y + HIT_MARGIN &&
@@ -80,7 +50,6 @@ class Ball {
         this.emitPosition();
       }
     }
-    // }
   }
 
   emitPosition() {

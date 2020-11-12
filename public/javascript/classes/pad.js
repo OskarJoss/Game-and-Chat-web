@@ -11,12 +11,12 @@ class Pad {
     rect(this.x, this.y, this.width, this.height);
   }
 
-  playerOnePosition() {
+  bottomPosition() {
     //put outside canvas before starting and get correct pos depending on who is player one
     this.y = height - 60;
   }
 
-  playerTwoPosition() {
+  topPosition() {
     this.y = 60;
   }
 

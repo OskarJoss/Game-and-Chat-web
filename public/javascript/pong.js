@@ -39,20 +39,13 @@ socket.on("pong-game", (data) => {
       ball.reverseDirection();
     }
 
-    playerPad.playerOnePosition();
-    opponentPad.playerTwoPosition();
-
-    // if (socket.id === gameState.playerOne) {
-    //   playerPad.playerOnePosition();
-    //   opponentPad.playerTwoPosition();
-    // } else {
-    //   playerPad.playerTwoPosition();
-    //   opponentPad.playerOnePosition();
-    // }
+    playerPad.bottomPosition();
+    opponentPad.topPosition();
   }
 
   if (data.action === "new ball position") {
     ball.updatePosition(data.posX, data.posY, data.velX, data.velY);
+    //if player did not send this event, mirror the ball position to show both players at bottom
     if (socket.id !== data.sender) {
       ball.mirrorPosition();
     }
@@ -146,13 +139,8 @@ function draw() {
     rect(width - WALL_OFFSET, 0, WALL_OFFSET, height);
     textSize(15);
     textAlign(LEFT);
-    if (socket.id === gameState.playerOne) {
-      text(playerScoreText, 10, height - 10);
-      text(opponentScoreText, 10, 20);
-    } else {
-      text(opponentScoreText, 10, height - 10);
-      text(playerScoreText, 10, 20);
-    }
+    text(playerScoreText, 10, height - 10);
+    text(opponentScoreText, 10, 20);
 
     if (!gameState.winner) {
       if (countDown) {
