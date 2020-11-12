@@ -41,8 +41,9 @@ class Pad {
     });
   }
 
+  //used to update opponentPad, mirror position to show both players at bottom
   updatePosition(posX) {
-    this.x = posX;
+    this.x = width - (posX + this.width);
   }
 
   reset() {

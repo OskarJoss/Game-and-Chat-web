@@ -29,12 +29,16 @@ class Ball {
       }
       //only playerPad sends event when losing a point
       //player is in top position
-      if (playerPad.y < height / 2 && this.pos.y <= this.radius) {
-        this.emitLostPoint();
-        this.outOfBounds = true;
-      }
+      // if (playerPad.y < height / 2 && this.pos.y <= this.radius) {
+      //   this.emitLostPoint();
+      //   this.outOfBounds = true;
+      // }
       //player is in bottom position
-      if (playerPad.y > height / 2 && this.pos.y + this.radius >= height) {
+      // if (playerPad.y > height / 2 && this.pos.y + this.radius >= height) {
+      //   this.emitLostPoint();
+      //   this.outOfBounds = true;
+      // }
+      if (this.pos.y + this.radius >= height) {
         this.emitLostPoint();
         this.outOfBounds = true;
       }
@@ -46,37 +50,37 @@ class Ball {
     //check if playerPad is on top or bottom to adjust hit area accordingly
 
     //top
-    if (playerPad.y < height / 2) {
-      const ballPos = this.pos.y - this.radius;
-      if (
-        ballPos > playerPad.y - HIT_MARGIN &&
-        ballPos <= playerPad.y &&
-        this.pos.x >= playerPad.x &&
-        this.pos.x <= playerPad.x + playerPad.width
-      ) {
-        if (this.vel.y < 0) {
-          this.vel.x = this.calculateAngle();
-          this.vel.y *= -1;
-          this.emitPosition();
-        }
-      }
-    }
+    // if (playerPad.y < height / 2) {
+    //   const ballPos = this.pos.y - this.radius;
+    //   if (
+    //     ballPos > playerPad.y - HIT_MARGIN &&
+    //     ballPos <= playerPad.y &&
+    //     this.pos.x >= playerPad.x &&
+    //     this.pos.x <= playerPad.x + playerPad.width
+    //   ) {
+    //     if (this.vel.y < 0) {
+    //       this.vel.x = this.calculateAngle();
+    //       this.vel.y *= -1;
+    //       this.emitPosition();
+    //     }
+    //   }
+    // }
     //bottom
-    if (playerPad.y > height / 2) {
-      const ballPos = this.pos.y + this.radius;
-      if (
-        ballPos < playerPad.y + HIT_MARGIN &&
-        ballPos >= playerPad.y &&
-        this.pos.x >= playerPad.x &&
-        this.pos.x <= playerPad.x + playerPad.width
-      ) {
-        if (this.vel.y > 0) {
-          this.vel.x = this.calculateAngle();
-          this.vel.y *= -1;
-          this.emitPosition();
-        }
+    // if (playerPad.y > height / 2) {
+    const ballPos = this.pos.y + this.radius;
+    if (
+      ballPos < playerPad.y + HIT_MARGIN &&
+      ballPos >= playerPad.y &&
+      this.pos.x >= playerPad.x &&
+      this.pos.x <= playerPad.x + playerPad.width
+    ) {
+      if (this.vel.y > 0) {
+        this.vel.x = this.calculateAngle();
+        this.vel.y *= -1;
+        this.emitPosition();
       }
     }
+    // }
   }
 
   emitPosition() {
@@ -100,6 +104,19 @@ class Ball {
   updateDirection(velX, velY) {
     this.vel.x = velX * this.speed;
     this.vel.y = velY * this.speed;
+  }
+
+  reverseDirection() {
+    this.vel.x *= -1;
+    this.vel.y *= -1;
+  }
+
+  //for showing both players at bottom position
+  mirrorPosition() {
+    this.vel.x *= -1;
+    this.vel.y *= -1;
+    this.pos.x = width - this.pos.x;
+    this.pos.y = 60;
   }
 
   calculateAngle() {

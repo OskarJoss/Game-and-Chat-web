@@ -34,17 +34,28 @@ socket.on("pong-game", (data) => {
 
     ball.updateDirection(gameState.ballAngle.velX, gameState.ballAngle.velY);
 
-    if (socket.id === gameState.playerOne) {
-      playerPad.playerOnePosition();
-      opponentPad.playerTwoPosition();
-    } else {
-      playerPad.playerTwoPosition();
-      opponentPad.playerOnePosition();
+    //reverse ball direction for playerTwo to show both at bottom position
+    if (socket.id === gameState.playerTwo) {
+      ball.reverseDirection();
     }
+
+    playerPad.playerOnePosition();
+    opponentPad.playerTwoPosition();
+
+    // if (socket.id === gameState.playerOne) {
+    //   playerPad.playerOnePosition();
+    //   opponentPad.playerTwoPosition();
+    // } else {
+    //   playerPad.playerTwoPosition();
+    //   opponentPad.playerOnePosition();
+    // }
   }
 
   if (data.action === "new ball position") {
     ball.updatePosition(data.posX, data.posY, data.velX, data.velY);
+    if (socket.id !== data.sender) {
+      ball.mirrorPosition();
+    }
   }
 
   if (data.action === "opponent pad position") {
@@ -64,6 +75,9 @@ socket.on("pong-game", (data) => {
     opponentPad.reset();
     ball.reset();
     ball.updateDirection(gameState.ballAngle.velX, gameState.ballAngle.velY);
+    if (socket.id === gameState.playerTwo) {
+      ball.reverseDirection();
+    }
     scorePause = true;
   }
 });
